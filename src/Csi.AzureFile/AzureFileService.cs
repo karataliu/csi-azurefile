@@ -19,7 +19,7 @@ namespace Csi.AzureFile
             this.logger = logger;
         }
 
-        public async Task<CloudFileShare> CreateShareAsync(string shareName, int? quota)
+        public async Task<AzureFileShare> CreateShareAsync(string shareName, int? quota)
         {
             using (var _s = logger.StepInformation("{0}: shareName:{1}, quota:{2}",
                 nameof(CreateShareAsync), shareName, quota))
@@ -30,7 +30,11 @@ namespace Csi.AzureFile
                 await share.FetchAttributesAsync();
 
                 _s.Commit();
-                return share;
+                return new AzureFileShare
+                {
+                    Name = share.Name,
+                    QuotaInGib = share.Properties.Quota,
+                };
             }
         }
 
