@@ -19,8 +19,10 @@ namespace Csi.AzureFile
         private readonly IVolumeIdProvider volumeIdProvider;
         private readonly ILogger logger;
 
-        public AzureFileCsiService(IAzureFileServiceFactory azureFileServiceFactory, IVolumeIdProvider volumeIdProvider,
-            ILogger logger)
+        public AzureFileCsiService(
+            IAzureFileServiceFactory azureFileServiceFactory,
+            IVolumeIdProvider volumeIdProvider,
+            ILogger<AzureFileCsiService> logger)
         {
             this.azureFileServiceFactory = azureFileServiceFactory;
             this.volumeIdProvider = volumeIdProvider;
