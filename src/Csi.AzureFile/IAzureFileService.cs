@@ -1,13 +1,18 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage.File;
 
 namespace Csi.AzureFile
 {
     interface IAzureFileService
     {
-        Task<CloudFileShare> CreateShareAsync(string shareName, int? capacity);
+        Task<AzureFileShare> CreateShareAsync(string shareName, int? quotaInGib);
         Task DeleteShareAsync(string shareName);
         string GetShareUnc(string shareName);
         SmbShareCredential GetShareCredential();
+    }
+
+    sealed class AzureFileShare
+    {
+        public string Name { get; set; }
+        public int? QuotaInGib { get; set; }
     }
 }

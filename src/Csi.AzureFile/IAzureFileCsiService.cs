@@ -29,26 +29,17 @@ namespace Csi.AzureFile
         public async Task<Volume> CreateVolumeAsync(
             string name,
             MapField<string, string> parameters,
-            CapacityRange range1)
+            CapacityRange range)
         {
-            int? getCapacity(CapacityRange range)
-            {
-                if (range == null || range.LimitBytes <= 0) return null;
-                return (int)(range.LimitBytes >> 30);
-            }
-
-            var shareName = name;
-            if (parameters.TryGetValue("shareName", out var sn)) shareName = sn;
-            var capacity = getCapacity(range1);
-
             var azureFileService = azureFileServiceFactory.Create();
-            var share = await azureFileService.CreateShareAsync(shareName, capacity);
-            var quota = share.Properties.Quota;
+            var shareName = name;
+            var share = await azureFileService.CreateShareAsync(shareName,
+                SizeConverter.CapacityRangeToQuota(range));
 
             return new Volume
             {
                 Id = share.Name,
-                CapacityBytes = quota == null ? 0 : quota.Value << 30,
+                CapacityBytes = SizeConverter.QuotaToCapacityBytes(share.QuotaInGib),
             };
         }
 
