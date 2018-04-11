@@ -40,7 +40,6 @@ namespace Csi.AzureFile
                 {
                     response.Volume = await azureFileCsiService.CreateVolumeAsync(
                         request.Name,
-                        request.Parameters,
                         request.CapacityRange);
                 }
                 catch (StorageException ex)
