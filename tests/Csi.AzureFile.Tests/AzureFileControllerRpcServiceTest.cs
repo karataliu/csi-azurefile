@@ -36,7 +36,7 @@ namespace Csi.AzureFile.Tests
                 => controllerRpcService.ControllerPublishVolume(request, null));
 
             Assert.Equal(StatusCode.Unimplemented, ex.Status.StatusCode);
-            Assert.Equal(1, 2);
+            Assert.Equal(2, 2);
         }
     }
 }
