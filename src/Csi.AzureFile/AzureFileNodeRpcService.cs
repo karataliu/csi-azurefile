@@ -84,18 +84,7 @@ namespace Csi.AzureFile
             NodeGetCapabilitiesRequest request,
             ServerCallContext context)
         {
-            var response = new NodeGetCapabilitiesResponse
-            {
-                Capabilities =
-                {
-                    new NodeServiceCapability {
-                        Rpc = new  NodeServiceCapability.Types.RPC{
-                            Type = NodeServiceCapability.Types.RPC.Types.Type.Unknown
-                        }
-                    }
-                }
-            };
-
+            var response = new NodeGetCapabilitiesResponse { Capabilities = { } };
             return Task.FromResult(response);
         }
     }

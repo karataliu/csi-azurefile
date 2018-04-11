@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Csi.V0;
-using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -11,31 +10,45 @@ namespace Csi.AzureFile.Tests
         [Fact]
         public async Task ControllerGetCapabilities()
         {
-            var lf = new LoggerFactory();
-            var controllerRpcService = new AzureFileControllerRpcService(
-                null,
-                lf.CreateLogger<AzureFileControllerRpcService>());
+            var service = createService();
 
-            var request = new ControllerGetCapabilitiesRequest();
-            var response = await controllerRpcService.ControllerGetCapabilities(request, null);
+            var response = await service.ControllerGetCapabilities(new ControllerGetCapabilitiesRequest(), null);
             Assert.Single(response.Capabilities);
             Assert.Equal(ControllerServiceCapability.Types.RPC.Types.Type.CreateDeleteVolume,
                 response.Capabilities[0].Rpc.Type);
         }
 
         [Fact]
-        public async Task ControllerPublishVolumeShouldThrowRpcUnimplementedException()
+        public async Task UnsupportedApiShouldThrowRpcUnimplementedException()
+        {
+            var service = createService();
+
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.ControllerPublishVolume(new ControllerPublishVolumeRequest(), null));
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.ControllerUnpublishVolume(new ControllerUnpublishVolumeRequest(), null));
+
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.ValidateVolumeCapabilities(new ValidateVolumeCapabilitiesRequest(), null));
+
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.ListVolumes(new ListVolumesRequest (), null));
+
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.GetCapacity(new GetCapacityRequest(), null));
+
+            await AssertRpc.ThrowsRpcUnimplementedException(()
+                => service.GetCapacity(new GetCapacityRequest(), null));
+        }
+
+        private AzureFileControllerRpcService createService()
         {
             var lf = new LoggerFactory();
-            var controllerRpcService = new AzureFileControllerRpcService(
+            return new AzureFileControllerRpcService(
                 null,
                 lf.CreateLogger<AzureFileControllerRpcService>());
-
-            var request = new ControllerPublishVolumeRequest();
-            var ex = await Assert.ThrowsAsync<RpcException>(()
-                => controllerRpcService.ControllerPublishVolume(request, null));
-
-            Assert.Equal(StatusCode.Unimplemented, ex.Status.StatusCode);
         }
     }
+
+   
 }
