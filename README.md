@@ -1,1 +1,1 @@
-# Csi AzureFile
+# Csi AzureFile  [![Build status win](https://ci.appveyor.com/api/projects/status/adla96gowh5o3cw9?svg=true)](https://ci.appveyor.com/project/karataliu/csi-azurefile) [![Build status linux](https://api.travis-ci.org/karataliu/csi-azurefile.svg?branch=ci)](https://travis-ci.org/karataliu/csi-azurefile)
