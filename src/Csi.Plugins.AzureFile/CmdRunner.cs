@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -7,27 +6,27 @@ using Util.Extensions.Logging.Step;
 
 namespace Csi.Plugins.AzureFile
 {
-    sealed class CmdEntry
+    sealed class CmdRunner : ICmdRunner
     {
-        public string Command { get; set; }
-        public IEnumerable<string> Arguments { get; set; }
-    }
+        private readonly bool showStdout= true;
+        private readonly ILogger logger;
 
-    static class ProcUtil
-    {
-        public static bool ShowStdout { get; set; } = true;
+        public CmdRunner(ILogger<CmdRunner> logger)
+        {
+            this.logger = logger;
+        }
 
-        public static async Task RunCmd(CmdEntry cmdEntry, ILogger logger)
+        public async Task RunCmd(CmdEntry cmdEntry)
         {
             var cmd = cmdEntry.Command;
             var arguments = cmdEntry.Arguments;
-            var argumentsStr = string.Join(" ", arguments.Select(a => $"\"{a}\""));
+            var argumentsStr = string.Join(" ", arguments); //.Select(a => $"\"{a}\"")
             var info = new ProcessStartInfo
             {
                 FileName = cmd,
                 Arguments = argumentsStr,
                 UseShellExecute = false,
-                RedirectStandardOutput = !ShowStdout,
+                RedirectStandardOutput = !showStdout,
             };
 
             int exitCode = 0;
@@ -38,7 +37,7 @@ namespace Csi.Plugins.AzureFile
                 {
                     using (var process = Process.Start(info))
                     {
-                        if (!ShowStdout)
+                        if (!showStdout)
                         {
                             process.StandardOutput.ReadToEnd();
                         }

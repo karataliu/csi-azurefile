@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Util.Extensions.Logging.Step;
 
@@ -6,10 +7,12 @@ namespace Csi.Plugins.AzureFile
 {
     sealed class SmbShareAttacherLinux : ISmbShareAttacher
     {
+        private readonly ICmdRunner cmdRunner;
         private readonly ILogger logger;
 
-        public SmbShareAttacherLinux(ILogger<SmbShareAttacherLinux> logger)
+        public SmbShareAttacherLinux(ICmdRunner cmdRunner,ILogger<SmbShareAttacherLinux> logger)
         {
+            this.cmdRunner = cmdRunner;
             this.logger = logger;
         }
 
@@ -17,8 +20,10 @@ namespace Csi.Plugins.AzureFile
         {
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {
+                // Ensure dir exists
+                Directory.CreateDirectory(targetPath);
                 var cmd = getLinuxConnectCmd(unc, targetPath, smbShareCredential);
-                await ProcUtil.RunCmd(cmd, logger);
+                await cmdRunner.RunCmd(cmd);
 
                 _s.Commit();
             }
@@ -29,7 +34,7 @@ namespace Csi.Plugins.AzureFile
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {
                 var cmd = getLinuxDisconnectCmd(targetPath);
-                await ProcUtil.RunCmd(cmd, logger);
+                await cmdRunner.RunCmd(cmd);
 
                 _s.Commit();
             }

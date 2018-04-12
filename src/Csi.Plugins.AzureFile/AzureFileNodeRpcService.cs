@@ -1,4 +1,4 @@
-using System.IO;
+using System;
 using System.Threading.Tasks;
 using Csi.V0;
 using Grpc.Core;
@@ -38,13 +38,19 @@ namespace Csi.Plugins.AzureFile
             {
                 logger.LogDebug("{0}: {1}", nameof(NodePublishVolumeRequest), request);
 
-                // Ensure dir exists
-                Directory.CreateDirectory(targetPath);
+                try
+                {
+                    await smbShareAttacher.AttachAsync(
+                        azureFileCsiService.GetSmbShareUnc(id),
+                        targetPath,
+                        azureFileCsiService.GetShareCredential());
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "Exception in AttachAsync");
+                    throw;
+                }
 
-                await smbShareAttacher.AttachAsync(
-                    azureFileCsiService.GetSmbShareUnc(id),
-                    targetPath,
-                    azureFileCsiService.GetShareCredential());
                 _s.Commit();
             }
 
