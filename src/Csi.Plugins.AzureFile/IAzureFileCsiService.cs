@@ -2,7 +2,7 @@
 using Csi.V0;
 using Microsoft.Extensions.Logging;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     interface IAzureFileCsiService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     class Program
     {

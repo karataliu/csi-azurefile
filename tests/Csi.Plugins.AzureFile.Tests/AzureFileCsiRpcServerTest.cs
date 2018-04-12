@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Csi.AzureFile.Tests
+namespace Csi.Plugins.AzureFile.Tests
 {
     public class AzureFileCsiRpcServerTest
     {

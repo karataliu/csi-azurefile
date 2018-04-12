@@ -1,4 +1,4 @@
-﻿namespace Csi.AzureFile
+﻿namespace Csi.Plugins.AzureFile
 {
     interface IVolumeIdProvider
     {

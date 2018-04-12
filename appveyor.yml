@@ -6,4 +6,4 @@ branches:
 build_script:
 - ps: dotnet build
 test_script:
-- ps: dotnet test tests/Csi.AzureFile.Tests
+- ps: dotnet test tests/Csi.Plugins.AzureFile.Tests

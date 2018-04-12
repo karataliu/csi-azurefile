@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Util.Extensions.Logging.Step;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     sealed class AzureFileControllerRpcService : Controller.ControllerBase
     {

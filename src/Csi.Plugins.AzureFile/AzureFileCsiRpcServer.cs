@@ -2,7 +2,7 @@ using System;
 using Csi.V0;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     sealed class AzureFileCsiRpcServer : CsiRpcServer
     {

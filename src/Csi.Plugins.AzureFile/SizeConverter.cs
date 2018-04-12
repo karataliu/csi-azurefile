@@ -1,6 +1,6 @@
 ﻿using Csi.V0;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     // Quota in GiB
     static class SizeConverter

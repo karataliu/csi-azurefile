@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Xunit;
 
-namespace Csi.AzureFile.Tests
+namespace Csi.Plugins.AzureFile.Tests
 {
     static class AssertRpc
     {

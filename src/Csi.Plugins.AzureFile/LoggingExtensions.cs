@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     static class LoggingExtensions {
         // {SourceContext}
