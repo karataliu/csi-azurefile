@@ -4,6 +4,7 @@ branches:
   - master
 image: Visual Studio 2017
 build_script:
-- ps: dotnet build
+- ps: dotnet build Csi.Plugins.AzureFile.sln
+- ps: dotnet build Csi.Plugins.AzureFile.Tests.Scenarios.sln
 test_script:
 - ps: dotnet test tests/Csi.Plugins.AzureFile.Tests
