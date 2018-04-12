@@ -10,7 +10,7 @@ namespace Csi.Plugins.AzureFile
             throw new NotImplementedException();
         }
 
-        public Task DetachAsync(string unc, string targetPath)
+        public Task DetachAsync(string targetPath)
         {
             throw new NotImplementedException();
         }
