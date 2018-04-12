@@ -2,6 +2,6 @@
 {
     interface IAzureFileServiceFactory
     {
-        IAzureFileService Create();
+        IAzureFileService Create(AzureFileAccount azureFileAccount);
     }
 }

@@ -16,7 +16,7 @@ namespace Csi.Plugins.AzureFile
             };
 
         public static string GetStorageEndpointSuffix(string environmentName)
-            => parseAzureEnvironment(environmentName).StorageEndpointSuffix;
+            => parseAzureEnvironment(environmentName).StorageEndpointSuffix.TrimStart('.');
 
         private static AzureEnvironment parseAzureEnvironment(string environmentName)
         {

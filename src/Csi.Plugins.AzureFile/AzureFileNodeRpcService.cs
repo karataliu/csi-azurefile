@@ -60,7 +60,7 @@ namespace Csi.Plugins.AzureFile
             using (var _s = logger.StepInformation("{0}, id: {1}, targetPath: {2}",
                 nameof(NodeUnpublishVolume), id, targetPath))
             {
-                await smbShareAttacher.DetachAsync(azureFileCsiService.GetSmbShareUnc(id), targetPath);
+                await smbShareAttacher.DetachAsync(targetPath);
                 _s.Commit();
             }
 

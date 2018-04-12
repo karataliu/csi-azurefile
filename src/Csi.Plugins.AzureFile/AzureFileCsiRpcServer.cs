@@ -15,6 +15,7 @@ namespace Csi.Plugins.AzureFile
                .AddSingleton<IAzureFileServiceFactory, AzureFileServiceFactory>()
                .AddSingleton<ICsiRpcServer, AzureFileCsiRpcServer>()
                .AddSingleton<IVolumeIdProvider, VolumeIdProvider>()
+               .AddSingleton<IAzureFileAccountProvider, DefaultAzureFileAccountProvider>()
                .AddSmbShareAttacher()
                .BuildServiceProvider();
         }

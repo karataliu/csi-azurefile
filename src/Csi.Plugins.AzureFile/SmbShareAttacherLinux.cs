@@ -24,11 +24,11 @@ namespace Csi.Plugins.AzureFile
             }
         }
 
-        public async Task DetachAsync(string unc, string targetPath)
+        public async Task DetachAsync(string targetPath)
         {
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {
-                var cmd = getLinuxDisconnectCmd(unc, targetPath);
+                var cmd = getLinuxDisconnectCmd(targetPath);
                 await ProcUtil.RunCmd(cmd, logger);
 
                 _s.Commit();
@@ -57,12 +57,12 @@ namespace Csi.Plugins.AzureFile
 
         private static string normalizeUnc(string unc) => unc.Replace('\\', '/');
 
-        public static CmdEntry getLinuxDisconnectCmd(string unc, string targetPath)
+        public static CmdEntry getLinuxDisconnectCmd(string targetPath)
         {
             return new CmdEntry
             {
                 Command = "umount",
-                // TODO verify mount
+                // TODO verify mount from unc?
                 Arguments = new[] { targetPath }
             };
         }
