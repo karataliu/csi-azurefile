@@ -2,7 +2,6 @@
 
 namespace Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode
 {
-
     static class TestHelper
     {
         public static Channel CreateChannel()
