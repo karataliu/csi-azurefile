@@ -12,7 +12,7 @@ namespace Csi.Plugins.AzureFile
 
         public IAzureFileService Create()
         {
-            var conn = Environment.GetEnvironmentVariable("CONN");
+            var conn = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION_STRING");
             var csa = CloudStorageAccount.Parse(conn);
 
             return new AzureFileService(csa, loggerFactory.CreateLogger<AzureFileService>());

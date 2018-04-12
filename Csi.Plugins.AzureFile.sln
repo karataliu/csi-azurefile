@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csi.Plugins.AzureFile", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csi.Plugins.AzureFile.Tests", "tests\Csi.Plugins.AzureFile.Tests\Csi.Plugins.AzureFile.Tests.csproj", "{DE0325EF-53E8-4329-925F-9D5D3D92C3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode", "tests\Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode\Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode.csproj", "{2EF52069-2970-4065-899E-17048E05DBEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode", "tests\Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode\Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode.csproj", "{2EF52069-2970-4065-899E-17048E05DBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csi.Plugins.AzureFile.Tests.Scenarios.K8s", "tests\Csi.Plugins.AzureFile.Tests.Scenarios.K8s\Csi.Plugins.AzureFile.Tests.Scenarios.K8s.csproj", "{41AC7D4A-5921-4239-819E-8298C74531A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{2EF52069-2970-4065-899E-17048E05DBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EF52069-2970-4065-899E-17048E05DBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EF52069-2970-4065-899E-17048E05DBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41AC7D4A-5921-4239-819E-8298C74531A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41AC7D4A-5921-4239-819E-8298C74531A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41AC7D4A-5921-4239-819E-8298C74531A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41AC7D4A-5921-4239-819E-8298C74531A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

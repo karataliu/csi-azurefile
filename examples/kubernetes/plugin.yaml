@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: csi-driver-azurefile
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: csi-driver-azurefile
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "update"]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["volumeattachments"]
+    verbs: ["get", "list", "watch", "update"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: csi-driver-azurefile
+subjects:
+  - kind: ServiceAccount
+    name: csi-driver-azurefile
+    namespace: csi-plugins-azurefile
+roleRef:
+  kind: ClusterRole
+  name: csi-driver-azurefile
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: csi-driver-azurefile
+spec:
+  selector:
+    matchLabels:
+      app: csi-driver-azurefile
+  template:
+    metadata:
+      labels:
+        app: csi-driver-azurefile
+    spec:
+      serviceAccount: csi-driver-azurefile
+      containers:
+        - name: driver-registrar
+          image: quay.io/k8scsi/driver-registrar:v0.2.0
+          args:
+            - "--v=5"
+            - "--csi-address=$(CSI_ENDPOINT)"
+          env:
+            - name: CSI_ENDPOINT
+              value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/kubelet/plugins/csi-azurefile
+        - name: plugin
+          imagePullPolicy: Always
+          image: karataliu/csi-azurefile:3
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            allowPrivilegeEscalation: true
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
+            - name: DEFAULT_CONNECTION_STRING
+              value: ''
+            - name: CSISERVICE_DISABLE_CONTROLLER
+              value: '1'
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /var/lib/kubelet/plugins/csi-azurefile
+            - name: pods-mount-dir
+              mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+      volumes:
+        - name: socket-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/csi-azurefile
+            # type: DirectoryOrCreate
+        - name: pods-mount-dir
+          hostPath:
+            path: /var/lib/kubelet/pods
+            # type: Directory
