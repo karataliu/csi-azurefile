@@ -2,7 +2,8 @@ branches:
   only:
   - master
 language: csharp
-solution: Csi.AzureFile.sln
+solution: Csi.Plugins.AzureFile.sln
 dotnet: 2.1.4
 script:
-  - dotnet test tests/Csi.AzureFile.Tests
+  - dotnet build
+  - dotnet test tests/Csi.Plugins.AzureFile.Tests

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Csi.AzureFile\Csi.AzureFile.csproj" />
+    <ProjectReference Include="..\..\src\Csi.Plugins.AzureFile\Csi.Plugins.AzureFile.csproj" />
   </ItemGroup>
 
 </Project>

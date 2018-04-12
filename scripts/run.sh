@@ -5,4 +5,4 @@ if [ ! -z "$CSI_SOCKET" ]; then
     socat -d UNIX-LISTEN:$CSI_SOCKET,fork TCP4:127.0.0.1:10000 2> /tmp/so.log &
 fi
 
-dotnet /opt/csi-azurefile/Csi.AzureFile.dll
+dotnet /opt/csi-azurefile/Csi.Plugins.AzureFile.dll

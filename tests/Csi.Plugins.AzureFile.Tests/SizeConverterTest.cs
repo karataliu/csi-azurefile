@@ -1,7 +1,7 @@
 ﻿using Csi.V0;
 using Xunit;
 
-namespace Csi.AzureFile.Tests
+namespace Csi.Plugins.AzureFile.Tests
 {
     public class SizeConverterTest
     {

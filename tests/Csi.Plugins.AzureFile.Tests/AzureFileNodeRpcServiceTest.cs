@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Csi.V0;
 
-namespace Csi.AzureFile.Tests
+namespace Csi.Plugins.AzureFile.Tests
 {
     public class AzureFileNodeRpcServiceTest
     {

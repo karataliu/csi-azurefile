@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     interface ISmbShareAttacher
     {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     class AzureFileServiceFactory : IAzureFileServiceFactory
     {

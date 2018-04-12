@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     static class SmbShareAttacherExtensions
     {

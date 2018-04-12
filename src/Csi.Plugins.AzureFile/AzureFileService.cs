@@ -4,7 +4,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.File;
 using Util.Extensions.Logging.Step;
 
-namespace Csi.AzureFile
+namespace Csi.Plugins.AzureFile
 {
     sealed class AzureFileService : IAzureFileService
     {
