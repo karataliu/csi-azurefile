@@ -81,7 +81,7 @@ spec:
               value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
             - name: DEFAULT_CONNECTION_STRING
               value: ''
-            - name: CSISERVICE_DISABLE_CONTROLLER
+            - name: CSI_SERVICE_DISABLE_CONTROLLER
               value: '1'
           volumeMounts:
             - name: socket-dir
