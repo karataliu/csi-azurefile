@@ -1,5 +1,4 @@
-﻿using Csi.V0;
-using Xunit;
+﻿using Xunit;
 
 namespace Csi.Plugins.AzureFile.Tests
 {
@@ -8,23 +7,24 @@ namespace Csi.Plugins.AzureFile.Tests
         [Fact]
         public void CapacityRangeToQuota()
         {
-            var cases = new(CapacityRange, int?)[]
+            var cases = new(long, int?)[]
             {
-                ( null, null ),
-                ( new CapacityRange { RequiredBytes = 2L }, 1 ),
-                ( new CapacityRange { RequiredBytes = 2L << 10 }, 1 ),
-                ( new CapacityRange { RequiredBytes = 1L << 30 }, 1 ),
-                ( new CapacityRange { RequiredBytes = (2L << 30) - 1 }, 2 ),
-                ( new CapacityRange { RequiredBytes = (2L << 30)     }, 2 ),
-                ( new CapacityRange { RequiredBytes = (2L << 30) + 1 }, 3 ),
+                ( -1, null ),
+                ( 0, null ),
+                ( 2L, 1 ),
+                ( 2L << 10 , 1 ),
+                ( 1L << 30 , 1 ),
+                ( (2L << 30) - 1, 2 ),
+                ( (2L << 30)    , 2 ),
+                ( (2L << 30) + 1, 3 ),
 
                 // Might be rejected by server, but fine for converter
-                ( new CapacityRange { RequiredBytes = (2L << 50) }, 2 << 20 ),
+                ( (2L << 50) , 2 << 20 ),
             };
 
             foreach (var entry in cases)
             {
-                Assert.Equal(entry.Item2, SizeConverter.CapacityRangeToQuota(entry.Item1));
+                Assert.Equal(entry.Item2, SizeConverter.RequiredBytesToQuota(entry.Item1));
             }
         }
 

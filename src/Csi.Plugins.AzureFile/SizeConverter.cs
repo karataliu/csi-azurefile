@@ -1,17 +1,13 @@
-﻿using Csi.V0;
-
-namespace Csi.Plugins.AzureFile
+﻿namespace Csi.Plugins.AzureFile
 {
     // Quota in GiB
     static class SizeConverter
     {
-        // Ignore limit_bytes
-        public static int? CapacityRangeToQuota(CapacityRange range)
+        public static int? RequiredBytesToQuota(long requiredBytes)
         {
-            if (range == null || range.RequiredBytes <= 0) return null;
-
+            if (requiredBytes <= 0) return null;
             // round up
-            return (int)(((range.RequiredBytes - 1) >> 30) + 1);
+            return (int)(((requiredBytes - 1) >> 30) + 1);
         }
 
         public static long QuotaToCapacityBytes(int? quota)
