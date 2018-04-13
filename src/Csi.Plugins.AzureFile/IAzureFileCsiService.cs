@@ -39,8 +39,9 @@ namespace Csi.Plugins.AzureFile
             var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
             var azureFileService = azureFileServiceFactory.Create(azureFileAccount);
             var shareName = name;
+            // Ignore limit_bytes
             var share = await azureFileService.CreateShareAsync(shareName,
-                SizeConverter.CapacityRangeToQuota(range));
+                SizeConverter.RequiredBytesToQuota(range.RequiredBytes));
 
             return new Volume
             {
