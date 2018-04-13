@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="KubernetesClient" Version="0.6.0-beta" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="Serilog" Version="2.6.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
