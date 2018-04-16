@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: csi-driver-azurefile
+  name: csi-plugin-azurefile
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: csi-driver-azurefile
+  name: csi-plugin-azurefile-runner
 rules:
   - apiGroups: [""]
     resources: ["nodes"]
@@ -24,30 +24,30 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: csi-driver-azurefile
+  name: csi-plugin-azurefile-role
 subjects:
   - kind: ServiceAccount
-    name: csi-driver-azurefile
+    name: csi-plugin-azurefile
     namespace: csi-plugins-azurefile
 roleRef:
   kind: ClusterRole
-  name: csi-driver-azurefile
+  name: csi-plugin-azurefile-runner
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
-  name: csi-driver-azurefile
+  name: csi-plugin-azurefile
 spec:
   selector:
     matchLabels:
-      app: csi-driver-azurefile
+      app: csi-plugin-azurefile
   template:
     metadata:
       labels:
-        app: csi-driver-azurefile
+        app: csi-plugin-azurefile
     spec:
-      serviceAccount: csi-driver-azurefile
+      serviceAccount: csi-plugin-azurefile
       containers:
         - name: driver-registrar
           image: quay.io/k8scsi/driver-registrar:v0.2.0
@@ -66,7 +66,7 @@ spec:
               mountPath: /var/lib/kubelet/plugins/csi-azurefile
         - name: plugin
           imagePullPolicy: Always
-          image: karataliu/csi-azurefile:3
+          image: karataliu/csi-azurefile:4
           securityContext:
             privileged: true
             capabilities:
@@ -79,8 +79,6 @@ spec:
                   fieldPath: spec.nodeName
             - name: CSI_ENDPOINT
               value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
-            - name: DEFAULT_CONNECTION_STRING
-              value: ''
             - name: CSI_SERVICE_DISABLE_CONTROLLER
               value: '1'
           volumeMounts:

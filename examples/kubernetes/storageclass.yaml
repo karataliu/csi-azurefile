@@ -3,5 +3,7 @@ kind: StorageClass
 metadata:
    name: azurefile-csi
 provisioner: csi-azurefile
-parameters:
 reclaimPolicy: Delete
+parameters:
+  csiProvisionerSecretName: csi-azurefile-secret
+  csiProvisionerSecretNamespace: csi-plugins-azurefile
