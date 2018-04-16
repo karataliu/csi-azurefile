@@ -95,6 +95,6 @@ namespace Csi.Plugins.AzureFile
             if (expectedStr != providedStr) throw new System.Exception("Provided account does not match expected");
         }
 
-        private string toIdString(AzureFileAccountId afai) => $"{afai.Name}@{afai.EnvironmentName}";
+        private string toIdString(AzureFileAccountId afai) => $"{afai.Name}@{afai.EnvironmentName}".ToLower();
     }
 }
