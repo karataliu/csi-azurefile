@@ -42,8 +42,8 @@ namespace Csi.Plugins.AzureFile
                 {
                     (var unc, var cred) = azureFileCsiService.GetSmbShare(id);
                     await smbShareAttacher.AttachAsync(
-                        unc,
                         targetPath,
+                        unc,
                         cred);
                 }
                 catch (Exception ex)

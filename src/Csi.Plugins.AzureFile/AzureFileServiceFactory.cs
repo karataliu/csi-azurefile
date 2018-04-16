@@ -29,7 +29,7 @@ namespace Csi.Plugins.AzureFile
 
     sealed class AzureFileAccountId
     {
-        public string EnvironmentName { get; set; }
+        public string EnvironmentName { get; set; } = "AzureGlobalCloud";
         public string Name { get; set; }
     }
 }
