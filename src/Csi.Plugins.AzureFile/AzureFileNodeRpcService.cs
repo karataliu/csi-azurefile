@@ -36,8 +36,6 @@ namespace Csi.Plugins.AzureFile
             using (var _s = logger.StepInformation("{0}, id: {1}, targetPath: {2}",
                 nameof(NodePublishVolume), id, targetPath))
             {
-                logger.LogDebug("{0}: {1}", nameof(NodePublishVolumeRequest), request);
-
                 try
                 {
                     (var unc, var cred) = azureFileCsiService.GetSmbShare(id, request.NodePublishSecrets);

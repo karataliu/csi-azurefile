@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Csi.Plugins.AzureFile
+﻿namespace Csi.Plugins.AzureFile
 {
     abstract class AzureFileAccountProviderBase : IAzureFileAccountProvider
     {
