@@ -16,7 +16,15 @@ namespace Csi.Plugins.AzureFile
                .AddSingleton<IAzureFileServiceFactory, AzureFileServiceFactory>()
                .AddSingleton<ICsiRpcServer, AzureFileCsiRpcServer>()
                .AddSingleton<IVolumeIdProvider, VolumeIdProvider>()
-               .AddSingleton<IAzureFileAccountProvider, DefaultAzureFileAccountProvider>()
+               .AddSingleton<IAzureFileAccountProvider>(sp => {
+                   var defaultProvider = ActivatorUtilities.CreateInstance<AzureFileAccountProviderEnvironment>(sp);
+                   var dynamicProvider = ActivatorUtilities.CreateInstance<AzureFileAccountProviderDynamicSecret>(sp);
+                   dynamicProvider.Next = defaultProvider;
+                   var validator = ActivatorUtilities.CreateInstance<AzureFileAccountProviderValidator>(sp);
+                   validator.Next = dynamicProvider;
+
+                   return validator;
+               })
                .AddSingleton<ICmdRunner,CmdRunner>()
                .AddSmbShareAttacher()
                .BuildServiceProvider();

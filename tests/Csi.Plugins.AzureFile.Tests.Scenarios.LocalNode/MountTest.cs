@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Csi.V0;
@@ -19,6 +20,8 @@ namespace Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode
             {
                 Name = namingProvider.VolumeName(),
             };
+            populateSecretsFromEnv(request.ControllerCreateSecrets);
+
             var response = await controller.CreateVolumeAsync(request, null);
             Assert.NotNull(response.Volume);
             Assert.NotNull(response.Volume.Id);
@@ -33,6 +36,8 @@ namespace Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode
                     VolumeId = volId,
                     TargetPath = tmppath,
                 };
+                populateSecretsFromEnv(npr.NodePublishSecrets);
+
                 await node.NodePublishVolumeAsync(npr, null);
                 var tmpfile = Path.Combine(tmppath, namingProvider.FileName());
                 var content = DateTimeOffset.UtcNow.ToString();
@@ -54,6 +59,17 @@ namespace Csi.Plugins.AzureFile.Tests.Scenarios.LocalNode
                     VolumeId = volId,
                 });
                 */
+            }
+        }
+
+        private void populateSecretsFromEnv(IDictionary<string, string> dic)
+        {
+            const string prefix = "AFT_";
+            foreach (var name in new[] { "cloudEnv", "accountName", "accountKey" })
+            {
+                var envName = (prefix + name).ToUpper();
+                var envVal = Environment.GetEnvironmentVariable(envName);
+                if (!string.IsNullOrEmpty(envVal)) dic[name] = envVal;
             }
         }
     }

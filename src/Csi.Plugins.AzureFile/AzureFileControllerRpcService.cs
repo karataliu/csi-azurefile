@@ -40,6 +40,7 @@ namespace Csi.Plugins.AzureFile
                 {
                     response.Volume = await azureFileCsiService.CreateVolumeAsync(
                         request.Name,
+                        request.ControllerCreateSecrets,
                         request.CapacityRange);
                 }
                 catch (StorageException ex)
@@ -68,7 +69,7 @@ namespace Csi.Plugins.AzureFile
             var id = request.VolumeId;
             using (var _s = logger.StepInformation("{0}, id: {1}", nameof(DeleteVolume), id))
             {
-                await azureFileCsiService.DeleteVolumeAsync(id);
+                await azureFileCsiService.DeleteVolumeAsync(id, request.ControllerDeleteSecrets);
                 _s.Commit();
             }
 
