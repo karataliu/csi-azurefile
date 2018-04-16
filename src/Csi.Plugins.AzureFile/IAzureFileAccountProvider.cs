@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Csi.Plugins.AzureFile
 {
@@ -9,33 +9,11 @@ namespace Csi.Plugins.AzureFile
 
     sealed class AzureFileAccountProviderContext
     {
-    }
-
-    sealed class DefaultAzureFileAccountProvider : IAzureFileAccountProvider
-    {
-        private readonly AzureFileAccount defaultAzureFileAccount;
-        public DefaultAzureFileAccountProvider()
+        public AzureFileAccountProviderContext(IDictionary<string, string> secrets)
         {
-            var defaultAccountName = Environment.GetEnvironmentVariable("DEFAULT_ACCOUNT_NAME");
-            var defaultAccountKey = Environment.GetEnvironmentVariable("DEFAULT_ACCOUNT_KEY");
-            if (!string.IsNullOrEmpty(defaultAccountName) && !string.IsNullOrEmpty(defaultAccountKey))
-            {
-                defaultAzureFileAccount = new AzureFileAccount
-                {
-                    Id = new AzureFileAccountId
-                    {
-                        Name = defaultAccountName,
-                    },
-                    Key = defaultAccountKey,
-                };
-
-                var defaultEnvironmentName = Environment.GetEnvironmentVariable("DEFAULT_CLOUD_ENVIRONMENT");
-                if (!string.IsNullOrEmpty(defaultEnvironmentName))
-                    defaultAzureFileAccount.Id.EnvironmentName = defaultEnvironmentName;
-            }
+            this.secrets = secrets;
         }
 
-        public AzureFileAccount Provide(AzureFileAccountProviderContext context)
-            => defaultAzureFileAccount;
+        public IDictionary<string, string> secrets { get; set; }
     }
 }

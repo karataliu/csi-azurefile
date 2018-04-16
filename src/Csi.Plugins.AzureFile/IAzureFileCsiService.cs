@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Csi.V0;
 using Microsoft.Extensions.Logging;
 
@@ -6,9 +7,9 @@ namespace Csi.Plugins.AzureFile
 {
     interface IAzureFileCsiService
     {
-        Task<Volume> CreateVolumeAsync(string name, CapacityRange range);
-        Task DeleteVolumeAsync(string volumeId);
-        (string, SmbShareCredential) GetSmbShare(string volumeId);
+        Task<Volume> CreateVolumeAsync(string name, IDictionary<string, string> secrets, CapacityRange range);
+        Task DeleteVolumeAsync(string volumeId, IDictionary<string, string> secrets);
+        (string, SmbShareCredential) GetSmbShare(string volumeId, IDictionary<string, string> secrets);
     }
 
     class AzureFileCsiService : IAzureFileCsiService
@@ -33,9 +34,12 @@ namespace Csi.Plugins.AzureFile
             this.validator = new AzureFileAccountIdValidator(logger);
         }
 
-        public async Task<Volume> CreateVolumeAsync(string name, CapacityRange range)
+        public async Task<Volume> CreateVolumeAsync(
+            string name,
+            IDictionary<string, string> secrets,
+            CapacityRange range)
         {
-            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
+            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext(secrets));
             var azureFileService = azureFileServiceFactory.Create(azureFileAccount);
             var shareName = name;
             // Ignore limit_bytes
@@ -55,10 +59,10 @@ namespace Csi.Plugins.AzureFile
             };
         }
 
-        public async Task DeleteVolumeAsync(string volumeId)
+        public async Task DeleteVolumeAsync(string volumeId, IDictionary<string, string> secrets)
         {
             var shareId = volumeIdProvider.ParseVolumeId(volumeId);
-            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
+            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext(secrets));
 
             validator.Validate(shareId.AccountId, azureFileAccount.Id);
 
@@ -66,10 +70,10 @@ namespace Csi.Plugins.AzureFile
             await azureFileService.DeleteShareAsync(shareId.ShareName);
         }
 
-        public (string, SmbShareCredential) GetSmbShare(string volumeId)
+        public (string, SmbShareCredential) GetSmbShare(string volumeId, IDictionary<string, string> secrets)
         {
             var shareId = volumeIdProvider.ParseVolumeId(volumeId);
-            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
+            var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext(secrets));
 
             validator.Validate(shareId.AccountId, azureFileAccount.Id);
 

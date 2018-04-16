@@ -40,7 +40,7 @@ namespace Csi.Plugins.AzureFile
 
                 try
                 {
-                    (var unc, var cred) = azureFileCsiService.GetSmbShare(id);
+                    (var unc, var cred) = azureFileCsiService.GetSmbShare(id, request.NodePublishSecrets);
                     await smbShareAttacher.AttachAsync(
                         targetPath,
                         unc,
