@@ -8,13 +8,16 @@ namespace Csi.Plugins.AzureFile.Tests
         [Fact]
         public void Basic()
         {
-            const string azureGlobalCloudSuffix = "core.windows.net";
-            const string azureGermanCloudSuffix = "core.cloudapi.de";
-
+            var azureGlobalCloudSuffix = AzureEnvironmentHelper.GetStorageEndpointSuffix("AzureGlobalCloud");
+            Assert.False( string.IsNullOrEmpty(azureGlobalCloudSuffix));
             Assert.Equal(azureGlobalCloudSuffix, AzureEnvironmentHelper.GetStorageEndpointSuffix(""));
             Assert.Equal(azureGlobalCloudSuffix, AzureEnvironmentHelper.GetStorageEndpointSuffix("AzureGlobalCloud"));
-            Assert.Equal(azureGermanCloudSuffix, AzureEnvironmentHelper.GetStorageEndpointSuffix("AzureGermanCloud"));
+
+            var azureGermanCloudSuffix = AzureEnvironmentHelper.GetStorageEndpointSuffix("AzureGermanCloud");
+            Assert.False(string.IsNullOrEmpty(azureGermanCloudSuffix));
+            Assert.NotEqual(azureGlobalCloudSuffix, azureGermanCloudSuffix);
             Assert.Equal(azureGermanCloudSuffix, AzureEnvironmentHelper.GetStorageEndpointSuffix("azuregermancloud"));
+
             Assert.Throws<Exception>(() => AzureEnvironmentHelper.GetStorageEndpointSuffix("a"));
         }
     }
