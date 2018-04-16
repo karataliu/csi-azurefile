@@ -2,23 +2,43 @@
 {
     interface IVolumeIdProvider
     {
-        string CreateVolumeId(string storageAccountName, string shareName);
-        (string, string) ParseVolumeId(string volumeId);
+        string CreateVolumeId(AzureFileShareId shareId);
+        AzureFileShareId ParseVolumeId(string volumeId);
+    }
+
+    sealed class AzureFileShareId
+    {
+        public AzureFileAccountId AccountId { get; set; }
+        public string ShareName { get; set; }
     }
 
     class VolumeIdProvider : IVolumeIdProvider
     {
         private const string scheme = "azurefile://";
-        public string CreateVolumeId(string storageAccountName, string shareName)
-            => $"{scheme}{storageAccountName}/{shareName}";
+        public string CreateVolumeId(AzureFileShareId shareId)
+            => $"{scheme}{shareId.AccountId.Name}.{shareId.AccountId.EnvironmentName}/{shareId.ShareName}".ToLower();
 
-        public (string, string) ParseVolumeId(string volumeId)
+        public AzureFileShareId ParseVolumeId(string volumeId)
         {
             if (!volumeId.StartsWith(scheme)) throw new System.Exception("Invalid volumeId: " + volumeId);
-            var text = volumeId.Substring(scheme.Length);
+            var text = volumeId.Substring(scheme.Length).ToLower();
             var index = text.IndexOf('/');
             if (index < 0) throw new System.Exception("Invalid volumeId: " + volumeId);
-            return (text.Substring(0, index), text.Substring(index + 1));
+            
+            var shareName = text.Substring(index + 1);
+            var nameAndEnv = text.Substring(0, index);
+            var indexDot = nameAndEnv.IndexOf(".");
+            if (indexDot < 0) throw new System.Exception("Invalid volumeId: " + volumeId);
+            var name = nameAndEnv.Substring(0, indexDot);
+            var env = nameAndEnv.Substring(indexDot + 1);
+            return new AzureFileShareId {
+                AccountId = new AzureFileAccountId
+                {
+                    EnvironmentName = env,
+                    Name = name,
+                },
+                ShareName = shareName,
+            };
         }
     }
 }

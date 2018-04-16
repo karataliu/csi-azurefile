@@ -12,10 +12,9 @@ namespace Csi.Plugins.AzureFile
 
         public IAzureFileService Create(AzureFileAccount azureFileAccount)
         {
-            var sc = new StorageCredentials(azureFileAccount.Name, azureFileAccount.Key);
             var csa = new CloudStorageAccount(
-                sc,
-                AzureEnvironmentHelper.GetStorageEndpointSuffix(azureFileAccount.EnvironmentName),
+                new StorageCredentials(azureFileAccount.Id.Name, azureFileAccount.Key),
+                AzureEnvironmentHelper.GetStorageEndpointSuffix(azureFileAccount.Id.EnvironmentName),
                 true);
 
             return new AzureFileService(csa, loggerFactory.CreateLogger<AzureFileService>());
@@ -24,8 +23,13 @@ namespace Csi.Plugins.AzureFile
 
     sealed class AzureFileAccount
     {
+        public AzureFileAccountId Id { get; set; }
+        public string Key { get; set; }
+    }
+
+    sealed class AzureFileAccountId
+    {
         public string EnvironmentName { get; set; }
         public string Name { get; set; }
-        public string Key { get; set; }
     }
 }
