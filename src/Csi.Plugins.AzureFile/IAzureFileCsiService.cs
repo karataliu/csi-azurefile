@@ -43,9 +43,15 @@ namespace Csi.Plugins.AzureFile
             var share = await azureFileService.CreateShareAsync(shareName,
                 SizeConverter.RequiredBytesToQuota(range.RequiredBytes));
 
+            var shareId = new AzureFileShareId
+            {
+                ShareName = share.Name,
+                AccountId = azureFileAccount.Id,
+            };
+
             return new Volume
             {
-                Id = volumeIdProvider.CreateVolumeId("0", share.Name),
+                Id = volumeIdProvider.CreateVolumeId(shareId),
                 CapacityBytes = SizeConverter.QuotaToCapacityBytes(share.QuotaInGib),
             };
         }
@@ -54,8 +60,8 @@ namespace Csi.Plugins.AzureFile
         {
             var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
             var azureFileService = azureFileServiceFactory.Create(azureFileAccount);
-            (var account, var shareName) = volumeIdProvider.ParseVolumeId(volumeId);
-            await azureFileService.DeleteShareAsync(shareName);
+            var shareId = volumeIdProvider.ParseVolumeId(volumeId);
+            await azureFileService.DeleteShareAsync(shareId.ShareName);
         }
 
         public SmbShareCredential GetShareCredential()
@@ -69,8 +75,8 @@ namespace Csi.Plugins.AzureFile
         {
             var azureFileAccount = azureFileAccountProvider.Provide(new AzureFileAccountProviderContext());
             var azureFileService = azureFileServiceFactory.Create(azureFileAccount);
-            (var account, var shareName) = volumeIdProvider.ParseVolumeId(volumeId);
-            return azureFileService.GetShareUnc(shareName);
+            var shareId =volumeIdProvider.ParseVolumeId(volumeId);
+            return azureFileService.GetShareUnc(shareId.ShareName);
         }
     }
 }

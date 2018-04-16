@@ -22,8 +22,11 @@ namespace Csi.Plugins.AzureFile
             if (!string.IsNullOrEmpty(defaultAccountName) && !string.IsNullOrEmpty(defaultAccountKey))
                 defaultAzureFileAccount = new AzureFileAccount
                 {
-                    EnvironmentName = defaultEnvironmentName,
-                    Name = defaultAccountName,
+                    Id = new AzureFileAccountId
+                    {
+                        EnvironmentName = defaultEnvironmentName,
+                        Name = defaultAccountName,
+                    },
                     Key = defaultAccountKey,
                 };
         }
