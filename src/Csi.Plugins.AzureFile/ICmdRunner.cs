@@ -13,19 +13,4 @@ namespace Csi.Plugins.AzureFile
         public string Command { get; set; }
         public IEnumerable<string> Arguments { get; set; }
     }
-
-    static class CmdRunnerExtensions
-    {
-        private const string powerShellBin = "powershell";
-        private const string powerShellCommand = "-Command";
-
-        public static Task RunPowerShell(this ICmdRunner cmdRunner, IEnumerable<string> scriptLines)
-        {
-            return cmdRunner.RunCmd(new CmdEntry
-            {
-                Command = powerShellBin,
-                Arguments = new[] { powerShellCommand, string.Join(';', scriptLines) },
-            });
-        }
-    }
 }
