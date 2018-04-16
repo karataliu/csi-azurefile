@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Csi.Plugins.AzureFile
 {
-    class SmbShareAttacherWindows : ISmbShareAttacher
+    sealed class SmbShareAttacherWindows : ISmbShareAttacher
     {
         private readonly ILogger logger;
         private ICmdRunner cmdRunner;
@@ -35,6 +36,21 @@ namespace Csi.Plugins.AzureFile
                 //$"Remove-SmbGlobalMapping ",
             };
             return cmdRunner.RunPowerShell(script);
+        }
+    }
+
+    static class CmdRunnerExtensions
+    {
+        private const string powerShellBin = "powershell";
+        private const string powerShellCommand = "-Command";
+
+        public static Task RunPowerShell(this ICmdRunner cmdRunner, IEnumerable<string> scriptLines)
+        {
+            return cmdRunner.RunCmd(new CmdEntry
+            {
+                Command = powerShellBin,
+                Arguments = new[] { powerShellCommand, string.Join(';', scriptLines) },
+            });
         }
     }
 }
