@@ -19,6 +19,8 @@ namespace Csi.Plugins.AzureFile
         {
             this.azureFileCsiService = azureFileCsiService;
             this.logger = logger;
+
+            logger.LogInformation("Controller rpc service loaded");
         }
 
         public override async Task<CreateVolumeResponse> CreateVolume(
@@ -27,7 +29,6 @@ namespace Csi.Plugins.AzureFile
         {
             CreateVolumeResponse response = new CreateVolumeResponse();
 
-            logger.LogDebug("{0}:{1}", nameof(CreateVolumeRequest), request);
             if (string.IsNullOrEmpty(request.Name))
             {
                 logger.LogDebug("Validation fail");
