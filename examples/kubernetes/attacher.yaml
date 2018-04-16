@@ -59,7 +59,7 @@ spec:
               mountPath: /var/lib/kubelet/plugins/csi-azurefile
         - name: plugin
           imagePullPolicy: Always
-          image: karataliu/csi-azurefile:3
+          image: karataliu/csi-azurefile:4
           env:
             - name: CSI_ENDPOINT
               value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
