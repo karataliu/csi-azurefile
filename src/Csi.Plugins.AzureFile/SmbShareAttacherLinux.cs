@@ -16,7 +16,7 @@ namespace Csi.Plugins.AzureFile
             this.logger = logger;
         }
 
-        public async Task AttachAsync(string unc, string targetPath, SmbShareCredential smbShareCredential)
+        public async Task AttachAsync(string targetPath, string unc,SmbShareCredential smbShareCredential)
         {
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {

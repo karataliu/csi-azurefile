@@ -4,7 +4,7 @@ namespace Csi.Plugins.AzureFile
 {
     interface ISmbShareAttacher
     {
-        Task AttachAsync(string unc, string targetPath, SmbShareCredential smbShareCredential);
+        Task AttachAsync(string targetPath, string unc, SmbShareCredential smbShareCredential);
         Task DetachAsync(string targetPath);
     }
 }
