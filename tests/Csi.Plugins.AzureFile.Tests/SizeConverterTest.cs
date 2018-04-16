@@ -7,8 +7,9 @@ namespace Csi.Plugins.AzureFile.Tests
         [Fact]
         public void CapacityRangeToQuota()
         {
-            var cases = new(long, int?)[]
+            var cases = new(long?, int?)[]
             {
+                ( null, null ),
                 ( -1, null ),
                 ( 0, null ),
                 ( 2L, 1 ),
