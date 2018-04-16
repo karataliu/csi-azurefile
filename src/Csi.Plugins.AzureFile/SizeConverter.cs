@@ -3,11 +3,11 @@
     // Quota in GiB
     static class SizeConverter
     {
-        public static int? RequiredBytesToQuota(long requiredBytes)
+        public static int? RequiredBytesToQuota(long? requiredBytes)
         {
-            if (requiredBytes <= 0) return null;
+            if (requiredBytes == null || requiredBytes <= 0) return null;
             // round up
-            return (int)(((requiredBytes - 1) >> 30) + 1);
+            return (int)(((requiredBytes.Value - 1) >> 30) + 1);
         }
 
         public static long QuotaToCapacityBytes(int? quota)

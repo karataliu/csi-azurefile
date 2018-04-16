@@ -40,7 +40,7 @@ namespace Csi.Plugins.AzureFile
             var shareName = name;
             // Ignore limit_bytes
             var share = await azureFileService.CreateShareAsync(shareName,
-                SizeConverter.RequiredBytesToQuota(range.RequiredBytes));
+                SizeConverter.RequiredBytesToQuota(range?.RequiredBytes));
 
             var shareId = new AzureFileShareId
             {
