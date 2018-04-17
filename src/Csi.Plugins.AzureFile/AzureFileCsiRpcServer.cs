@@ -1,4 +1,5 @@
 using System;
+using Csi.Helpers.Azure;
 using Csi.V0;
 using Csi.V0.Server;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace Csi.Plugins.AzureFile
 
                    return validator;
                })
-               .AddSingleton<ICmdRunner,CmdRunner>()
+               .AddExternalRunner()
                .AddSmbShareAttacher()
                .BuildServiceProvider();
         }

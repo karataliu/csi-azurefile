@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Csi.Helpers.Azure;
 using Microsoft.Extensions.Logging;
 using Util.Extensions.Logging.Step;
 
@@ -7,23 +8,23 @@ namespace Csi.Plugins.AzureFile
 {
     sealed class SmbShareAttacherLinux : ISmbShareAttacher
     {
-        private readonly ICmdRunner cmdRunner;
+        private readonly IExternalRunner cmdRunner;
         private readonly ILogger logger;
 
-        public SmbShareAttacherLinux(ICmdRunner cmdRunner,ILogger<SmbShareAttacherLinux> logger)
+        public SmbShareAttacherLinux(IExternalRunner cmdRunner, ILogger<SmbShareAttacherLinux> logger)
         {
             this.cmdRunner = cmdRunner;
             this.logger = logger;
         }
 
-        public async Task AttachAsync(string targetPath, string unc,SmbShareCredential smbShareCredential)
+        public async Task AttachAsync(string targetPath, string unc, SmbShareCredential smbShareCredential)
         {
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {
                 // Ensure dir exists
                 Directory.CreateDirectory(targetPath);
                 var cmd = getLinuxConnectCmd(unc, targetPath, smbShareCredential);
-                await cmdRunner.RunCmd(cmd);
+                await cmdRunner.RunExecutable(cmd.Command, cmd.Arguments);
 
                 _s.Commit();
             }
@@ -34,7 +35,7 @@ namespace Csi.Plugins.AzureFile
             using (var _s = logger.StepDebug(nameof(AttachAsync)))
             {
                 var cmd = getLinuxDisconnectCmd(targetPath);
-                await cmdRunner.RunCmd(cmd);
+                await cmdRunner.RunExecutable(cmd.Command, cmd.Arguments);
 
                 _s.Commit();
             }
@@ -73,4 +74,9 @@ namespace Csi.Plugins.AzureFile
         }
     }
 
+    sealed class CmdEntry
+    {
+        public string Command { get; set; }
+        public string[] Arguments { get; set; }
+    }
 }

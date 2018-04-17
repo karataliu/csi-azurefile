@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Csi.Helpers.Azure;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 
@@ -29,7 +30,7 @@ namespace Csi.Plugins.AzureFile
 
     sealed class AzureFileAccountId
     {
-        public string EnvironmentName { get; set; } = "AzureGlobalCloud";
+        public string EnvironmentName { get; set; } = AzureEnvironmentHelper.DefaultEnvironmentName;
         public string Name { get; set; }
     }
 }
