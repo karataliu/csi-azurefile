@@ -7,7 +7,7 @@ namespace Csi.Plugins.AzureFile.Tests
         [Fact]
         public void TestGetService()
         {
-            var server = new AzureFileCsiRpcServer();
+            var server = new AzureFileCsiRpcServiceFactory();
             Assert.NotNull(server.CreateIdentityRpcService());
             Assert.NotNull(server.CreateControllerRpcService());
             Assert.NotNull(server.CreateNodeRpcService());

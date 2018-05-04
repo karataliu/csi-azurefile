@@ -11,9 +11,9 @@ namespace Csi.Plugins.AzureFile
         private readonly IExternalRunner cmdRunner;
         private readonly ILogger logger;
 
-        public SmbShareAttacherLinux(IExternalRunner cmdRunner, ILogger<SmbShareAttacherLinux> logger)
+        public SmbShareAttacherLinux(IExternalRunnerFactory cmdRunnerFactory, ILogger<SmbShareAttacherLinux> logger)
         {
-            this.cmdRunner = cmdRunner;
+            this.cmdRunner = cmdRunnerFactory.Create(true, false) ;
             this.logger = logger;
         }
 
