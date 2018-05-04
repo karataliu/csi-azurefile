@@ -79,8 +79,8 @@ spec:
                   fieldPath: spec.nodeName
             - name: CSI_ENDPOINT
               value: /var/lib/kubelet/plugins/csi-azurefile/csi.sock
-            - name: CSI_SERVICE_DISABLE_CONTROLLER
-              value: '1'
+            - name: CSIEXT_SERVICE_DISABLES
+              value: controller
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/kubelet/plugins/csi-azurefile
