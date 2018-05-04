@@ -7,3 +7,5 @@ reclaimPolicy: Delete
 parameters:
   csiProvisionerSecretName: csi-azurefile-secret
   csiProvisionerSecretNamespace: csi-plugins-azurefile
+  csiNodePublishSecretName: csi-azurefile-secret
+  csiNodePublishSecretNamespace: csi-plugins-azurefile
