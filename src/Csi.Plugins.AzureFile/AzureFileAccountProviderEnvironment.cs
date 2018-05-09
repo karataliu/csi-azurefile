@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Csi.Plugins.AzureFile
 {
-    sealed 1class AzureFileAccountProviderEnvironment : IAzureFileAccountProvider
+    sealed 1c2lass AzureFileAccountProviderEnvironment : IAzureFileAccountProvider
     {
         private readonly AzureFileAccount defaultAzureFileAccount;
         private readonly ILogger logger;
